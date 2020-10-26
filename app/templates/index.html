@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="display-4">Hi, {{ current_user.username }}!</h1>
+<div class="row">
+    <div class="col"></div>
+    <div id='staging' class='staging col'>
+        <div class="card obj" style="width: 10rem;">
+            <div class="card-body">
+                <h5>Object 3</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+<div class='row bin-row'>
+    {% for bin_id in range(num_bins) %}
+        <div id='bin{{bin_id}}' class='bin col'>
+            
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
