@@ -13,20 +13,20 @@ cursor: -webkit-grabbing;
 .bin {
     padding: 1em;
     margin: 1em;
-    min-height: 200px;
+    min-height: 150px;
 }
 
 .staging {
     padding: 1em;
     margin: 1em;
-    min-height: 200px;
+    min-height: 150px;
     background-color: lightgray;
+    max-width: 150px;
 }
 
 .obj {
-    background-color: blue;
-    padding: 1em;
-    margin: 1em;
+    padding: 0em;
+    margin: 0em;
 }
 
 .bin:first-child {

@@ -2,15 +2,21 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
-from app.models import User
+from app.forms import LoginForm, RegistrationForm, TrialForm
+from app.models import User, Trial
 
-
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    return render_template('index.html', title='Home', num_bins=6)
+    form = TrialForm()
+    if form.validate_on_submit():
+        trial = Trial(body=form.chosen_bin.data, author=current_user)
+        db.session.add(trial)
+        db.session.commit()
+        flash('You chose ' + form.chosen_bin.data)
+        return redirect(url_for('index'))
+    return render_template("index.html", title='Home Page', form=form, num_bins=6, card=3)
 
 
 @app.route('/login', methods=['GET', 'POST'])

@@ -5,10 +5,8 @@
 <div class="row">
     <div class="col"></div>
     <div id='staging' class='staging col'>
-        <div class="card obj" style="width: 10rem;">
-            <div class="card-body">
-                <h5>Object 3</h5>
-            </div>
+        <div class="card obj" style="width: 8rem;">
+            <img class="card-img-top" src="../static/cards/{{card}}.png" alt="Card image cap">
         </div>
     </div>
     <div class="col"></div>
@@ -20,5 +18,20 @@
         </div>
     {% endfor %}
 
+</div>
+<div class='row'>
+    <div class="col"></div>
+    <div class="col">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+
+            {% for error in form.chosen_bin.errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+            {{ form.submit(class="btn btn-primary btn-lg w-100") }}
+            <span class="invisible">{{ form.chosen_bin(cols=32, rows=4) }} </span>
+        </form>
+    </div>
+    <div class="col"></div>
 </div>
 {% endblock %}

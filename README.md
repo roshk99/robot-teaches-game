@@ -13,17 +13,12 @@
 
 ```
 python -m venv env
-(Ctrl + Shift + `)
+(Select Interpretor and Ctrl + Shift + `)
 python -m pip install --upgrade pip
 pip install flask
-pip install flask-sqlalchemy
-pip install flask-migrate
-pip install flask-wtf
-pip install flask-login
-pip install email_validator
 flask db init
 flask db migrate -m "users table"
 flask db upgrade
-flask db migrate -m "posts table"
+flask db migrate -m "trials table"
 flask db upgrade
 ```

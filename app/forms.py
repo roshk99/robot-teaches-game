@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Regexp
 from app.models import User
 
 
@@ -28,3 +28,14 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class TrialForm(FlaskForm):
+    chosen_bin = StringField()
+    
+    def validate_chosen_bin(self, chosen_bin):
+        if len(chosen_bin.data) < 3:
+            raise ValidationError("Please choose a bin")
+        if not (chosen_bin.data[0] == 'b'):
+            raise ValidationError("Please choose a bin")
+
+    submit = SubmitField('Submit')
