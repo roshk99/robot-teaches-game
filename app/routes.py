@@ -4,20 +4,25 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, TrialForm
 from app.models import User, Trial
+from app.params import *
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     form = TrialForm()
+    num_completed_trials = current_user.trials.count()
+    cur_card = CARD_ORDER[min(num_completed_trials, len(CARD_ORDER)-1)]
+    cur_answer = ANSWER[num_completed_trials]
+    if sum(cur_answer) == 1:
+        cur_answer = cur_answer.index(1)
     if form.validate_on_submit():
-        trial = Trial(body=form.chosen_bin.data, author=current_user)
+        trial = Trial(body=form.chosen_bin.data, author=current_user, trial_num=num_completed_trials+1)
         db.session.add(trial)
         db.session.commit()
-        flash('You chose ' + form.chosen_bin.data)
+        flash('You chose {} and correct answer is bin{}'.format(form.chosen_bin.data, cur_answer))
         return redirect(url_for('index'))
-    return render_template("index.html", title='Home Page', form=form, num_bins=6, card=3)
-
+    return render_template("index.html", title='Home Page', form=form, num_bins=NUM_BINS, card=cur_card, num_completed_trials=num_completed_trials, num_trials=NUM_TRIALS)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

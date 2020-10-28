@@ -2,6 +2,9 @@
 
 {% block content %}
 <h1 class="display-4">Hi, {{ current_user.username }}!</h1>
+<div class="progress" style="height: 50px">
+    <div class="progress-bar" role="progressbar" style="width: {{num_completed_trials/num_trials*100}}%;" aria-valuenow="{{num_completed_trials}}" aria-valuemin="0" aria-valuemax="{{num_trials}}">{{num_completed_trials}} out of {{num_trials}}</div>
+  </div>
 <div class="row">
     <div class="col"></div>
     <div id='staging' class='staging col'>
