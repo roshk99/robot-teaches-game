@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="progress" style="height: 50px">
+    <div class="progress-bar" role="progressbar" style="width: {{num_completed_trials/num_trials*100}}%;" aria-valuenow="{{num_completed_trials}}" aria-valuemin="0" aria-valuemax="{{num_trials}}">{{num_completed_trials}} out of {{num_trials}}</div>
+</div>
+<div class="row" style="padding: 2em;">
+    <div class="col-8">
+        <div class="row">
+            <div class="col"></div>
+            <div id="staging" class="staging col">
+                <div class="card obj" style="width: 8rem;">
+                    <img class="card-img-top" src="../static/cards/{{card}}.png">
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row bin-row">
+            {% for bin_id in range(num_bins) %}
+                <div id="bin{{bin_id}}" class="bin col">
+                    
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% for bin_id in range(num_bins) %}
+                <span id="bin_feedback{{bin_id}}" class="invisible">{{feedback[bin_id]}}</span>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <button type="button" class="btn btn-dark w-100" id="submit_choice_btn" onclick="showFeedback()">Submit Choice</button>
+                
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card w-80" style="padding: 0.5em;">
+            <div class="card-body" id="feedback_text">
+                Choose the bin you think the card belongs in
+            </div>
+        </div>
+        <img class="card-img-top w-50" style="padding: 0.5em;" src="../static/nao_static.png">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+
+            <!-- {% for error in form.chosen_bin.errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %} -->
+            {{ form.submit(class="btn btn-dark btn-lg w-100") }}
+            <span class="invisible">{{ form.chosen_bin(cols=32, rows=4) }} </span>
+        </form>
+    </div>
+    
+    </div>
+</div>
+
+
+{% endblock %}

@@ -13,7 +13,6 @@
 
 ```
 python -m venv env
-(Select Interpretor and Ctrl + Shift + `)
 python -m pip install --upgrade pip
 pip install flask
 flask db init
@@ -21,4 +20,7 @@ flask db migrate -m "users table"
 flask db upgrade
 flask db migrate -m "trials table"
 flask db upgrade
+
+(Select Interpretor and Ctrl + Shift + `)
+python -m flask run
 ```

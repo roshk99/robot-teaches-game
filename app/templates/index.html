@@ -1,40 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="display-4">Hi, {{ current_user.username }}!</h1>
-<div class="progress" style="height: 50px">
-    <div class="progress-bar" role="progressbar" style="width: {{num_completed_trials/num_trials*100}}%;" aria-valuenow="{{num_completed_trials}}" aria-valuemin="0" aria-valuemax="{{num_trials}}">{{num_completed_trials}} out of {{num_trials}}</div>
-  </div>
-<div class="row">
-    <div class="col"></div>
-    <div id='staging' class='staging col'>
-        <div class="card obj" style="width: 8rem;">
-            <img class="card-img-top" src="../static/cards/{{card}}.png" alt="Card image cap">
+    <h1>Home</h1>
+    <div class="row">
+        <div class="col">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Initial Survey</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Demonstrations</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Trials</h5>
+                    <p class="card-text">You have completed {{num_completed_trials}} out of {{num_trials}} trials.</p>
+                    <p>
+                        {% if num_completed_trials == num_trials %}
+                        <a href="#" class="btn btn-secondary w-100" disabled>All Trials Complete</a>
+                        {% else %}
+                            <a href="{{ url_for('trials') }}" class="btn btn-primary w-100">Finish Your Trials</a>
+                        {% endif %}
+                    </p>
+                    <p>
+                        <form action="" method="post">
+                            {{ clear_trial_form.hidden_tag() }}
+                            {{ clear_trial_form.submit(class="btn btn-danger w-100") }}
+                        </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">Final Survey</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col"></div>
-</div>
-<div class='row bin-row'>
-    {% for bin_id in range(num_bins) %}
-        <div id='bin{{bin_id}}' class='bin col'>
-            
-        </div>
-    {% endfor %}
-
-</div>
-<div class='row'>
-    <div class="col"></div>
-    <div class="col">
-        <form action="" method="post">
-            {{ form.hidden_tag() }}
-
-            {% for error in form.chosen_bin.errors %}
-                <div class="alert alert-danger" role="alert">{{ error }}</div>
-            {% endfor %}
-            {{ form.submit(class="btn btn-primary btn-lg w-100") }}
-            <span class="invisible">{{ form.chosen_bin(cols=32, rows=4) }} </span>
-        </form>
-    </div>
-    <div class="col"></div>
-</div>
 {% endblock %}
