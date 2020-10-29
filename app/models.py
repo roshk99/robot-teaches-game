@@ -27,10 +27,16 @@ def load_user(id):
 
 class Trial(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     trial_num = db.Column(db.Integer)
+    card_num = db.Column(db.Integer)
+    correct_bin = db.Column(db.Integer)
+    chosen_bin = db.Column(db.Integer)
+    feedback_given = db.Column(db.String(300))
+    feedback_type = db.Column(db.String(20))
+    rule_set = db.Column(db.String(300))
+    
     def __repr__(self):
         return "<Post {}>".format(self.body)
 

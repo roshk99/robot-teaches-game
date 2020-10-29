@@ -11,8 +11,8 @@ NUM_TRIALS = len(CARD_ORDER)
 
 NUM_BINS = 2
 RULES = [
-    (('red', 'green', 'purple'), ('open', 'striped', 'solid'), ('diamond', 'oval', 'squiggle'), ('one')),
-    (('red', 'green', 'purple'), ('open', 'striped', 'solid'), ('diamond', 'oval', 'squiggle'), ('two', 'three'))
+    [['red', 'green', 'purple'], ['open', 'striped', 'solid'], ['diamond', 'oval', 'squiggle'], ['one']],
+    [['red', 'green', 'purple'], ['open', 'striped', 'solid'], ['diamond', 'oval', 'squiggle'], ['two', 'three']]
 ]
 
 ANSWER = []
@@ -24,6 +24,8 @@ for card in CARD_ORDER:
                 bin_res[cur_bin] = 0
                 break
     ANSWER.append(bin_res)
+
+
 
 
 

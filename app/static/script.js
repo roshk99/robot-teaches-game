@@ -14,7 +14,9 @@ var drake = dragula(dragArr).on("drop", function (el) {
     console.log("Moved to " + el.parentElement.id);
 })
 var submit_btn = document.getElementById("submit");
-submit_btn.disabled = true;
+if (submit_btn.classList.includes("trial_submit_btn")) {
+    submit_btn.disabled = true;
+} 
 
 function showFeedback() {
     var feedback_box = document.getElementById("feedback_text");

@@ -5,6 +5,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, TrialForm, ClearTrialForm
 from app.models import User, Trial
 from app.params import *
+from app.utils import rules_to_str, str_to_rules
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
@@ -26,21 +27,20 @@ def trials():
     num_completed_trials = current_user.trials.count()
     cur_card = CARD_ORDER[min(num_completed_trials, len(CARD_ORDER)-1)]
     cur_answer = ANSWER[min(num_completed_trials, len(CARD_ORDER)-1)]
-    # if sum(cur_answer) == 1:
-    #     cur_answer = cur_answer.index(1)
     feedback = []
     for ii, answer in enumerate(cur_answer):
         if answer == 0:
-            feedback.append("Incorrect")
+            feedback.append("Incorrect!")
         else:
             feedback.append("Correct!")
+            correct_bin = ii
 
     if form.validate_on_submit():
-        trial = Trial(body=form.chosen_bin.data, author=current_user, trial_num=num_completed_trials+1)
+        chosen_bin = int(form.chosen_bin.data[3])
+        trial = Trial(author=current_user, trial_num=num_completed_trials+1, card_num = cur_card, correct_bin = correct_bin, chosen_bin = chosen_bin, feedback_given = feedback[chosen_bin], feedback_type = "text", rule_set = rules_to_str(RULES))
         db.session.add(trial)
         db.session.commit()
         if num_completed_trials < NUM_TRIALS:
-            # flash("You chose {} and correct answer is bin{}".format(form.chosen_bin.data, cur_answer))
             return redirect(url_for("trials"))
         else:
             return redirect(url_for("index"))

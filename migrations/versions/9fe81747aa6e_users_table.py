@@ -1,8 +1,8 @@
 """users table
 
-Revision ID: d61b92099d50
+Revision ID: 9fe81747aa6e
 Revises: 
-Create Date: 2020-10-28 11:42:58.177643
+Create Date: 2020-10-29 12:39:40.799556
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd61b92099d50'
+revision = '9fe81747aa6e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,10 +29,15 @@ def upgrade():
     op.create_index(op.f('ix_user_username'), 'user', ['username'], unique=True)
     op.create_table('trial',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('body', sa.String(length=140), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('trial_num', sa.Integer(), nullable=True),
+    sa.Column('card_num', sa.Integer(), nullable=True),
+    sa.Column('correct_bin', sa.Integer(), nullable=True),
+    sa.Column('chosen_bin', sa.Integer(), nullable=True),
+    sa.Column('feedback_given', sa.String(length=300), nullable=True),
+    sa.Column('feedback_type', sa.String(length=20), nullable=True),
+    sa.Column('rule_set', sa.String(length=300), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
