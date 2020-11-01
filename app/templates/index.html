@@ -1,55 +1,62 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <h1>Home</h1>
-    <div class="row">
-        <div class="col">
-            <div class="card" style="width: 100%;">
-                <div class="card-body">
-                    <h5 class="card-title">Initial Survey</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 100%;">
-                <div class="card-body">
-                    <h5 class="card-title">Demonstrations</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 100%;">
-                <div class="card-body">
-                    <h5 class="card-title">Trials</h5>
-                    <p class="card-text">You have completed {{num_completed_trials}} out of {{num_trials}} trials.</p>
-                    <p>
-                        {% if num_completed_trials == num_trials %}
-                        <a href="#" class="btn btn-secondary w-100" disabled>All Trials Complete</a>
-                        {% else %}
-                            <a href="{{ url_for('trials') }}" class="btn btn-primary w-100">Finish Your Trials</a>
-                        {% endif %}
-                    </p>
-                    <p>
-                        <form action="" method="post">
-                            {{ clear_trial_form.hidden_tag() }}
-                            {{ clear_trial_form.submit(class="btn btn-danger w-100") }}
-                        </form>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 100%;">
-                <div class="card-body">
-                    <h5 class="card-title">Final Survey</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+{% extends "base.html" %} {% block content %}
+<h1>Home</h1>
+<div class="row">
+    <div class="col">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">Initial Survey</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
     </div>
+
+    <div class="col">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">Demonstrations</h5>
+                <p class="card-text">You have seen {{num_completed_demos}} out of {{num_demos}} demonstrations.</p>
+                <p>
+                    {% if num_completed_demos == num_demos %}
+                    <a href="#" class="btn btn-secondary w-100" disabled>All Demonstrations Complete</a> {% else %}
+                    <a href="{{ url_for('demos') }}" class="btn btn-primary w-100">See Remaining Demonstrations</a> {% endif %}
+                </p>
+                <p>
+                    <form action="" method="post">
+                        {{ clear_demo_form.hidden_tag() }} {{ clear_demo_form.submit_demo(class="btn btn-danger w-100") }}
+                    </form>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">Trials</h5>
+                <p class="card-text">You have completed {{num_completed_trials}} out of {{num_trials}} trials.</p>
+                <p>
+                    {% if num_completed_trials == num_trials %}
+                    <a href="#" class="btn btn-secondary w-100" disabled>All Trials Complete</a> {% else %}
+                    <a href="{{ url_for('trials') }}" class="btn btn-primary w-100">Continue Your Trials</a> {% endif %}
+                </p>
+                <p>
+                    <form action="" method="post">
+                        {{ clear_trial_form.hidden_tag() }} {{ clear_trial_form.submit_trial(class="btn btn-danger w-100") }}
+                    </form>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <h5 class="card-title">Final Survey</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

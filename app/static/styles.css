@@ -1,13 +1,14 @@
-.bin > div {
-cursor: move;
-cursor: grab;
-cursor: -moz-grab;
-cursor: -webkit-grab;
+.bin>div {
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
+
 .gu-mirror {
-cursor: grabbing;
-cursor: -moz-grabbing;
-cursor: -webkit-grabbing;
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }
 
 .bin {
@@ -30,21 +31,37 @@ cursor: -webkit-grabbing;
 }
 
 .bin:first-child {
-background-color: red;  
-}.bin:nth-child(2) {
-background-color: orange;  
-}.bin:nth-child(3) {
-background-color: yellow;  
-}.bin:nth-child(4) {
-background-color: Chartreuse;  
-}.bin:nth-child(5) {
-background-color: cyan;  
-}.bin:nth-child(6) {
-background-color: blue;  
-}.bin:nth-child(7) {
-background-color: DarkOrchid;  
-}.bin:nth-child(8) {
-background-color: DeepPink;  
-}.bin:nth-child(9) {
-background-color: red;  
+    background-color: red;
+}
+
+.bin:nth-child(2) {
+    background-color: orange;
+}
+
+.bin:nth-child(3) {
+    background-color: yellow;
+}
+
+.bin:nth-child(4) {
+    background-color: Chartreuse;
+}
+
+.bin:nth-child(5) {
+    background-color: cyan;
+}
+
+.bin:nth-child(6) {
+    background-color: blue;
+}
+
+.bin:nth-child(7) {
+    background-color: DarkOrchid;
+}
+
+.bin:nth-child(8) {
+    background-color: DeepPink;
+}
+
+.bin:nth-child(9) {
+    background-color: red;
 }

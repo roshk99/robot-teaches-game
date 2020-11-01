@@ -9,6 +9,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     trials = db.relationship("Trial", backref="author", lazy="dynamic")
+    demos = db.relationship("Demo", backref="author", lazy="dynamic")
 
     def __repr__(self):
         return "<User {}>".format(self.username)
@@ -36,7 +37,15 @@ class Trial(db.Model):
     feedback_given = db.Column(db.String(300))
     feedback_type = db.Column(db.String(20))
     rule_set = db.Column(db.String(300))
-    
-    def __repr__(self):
-        return "<Post {}>".format(self.body)
+
+
+class Demo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    demo_num = db.Column(db.Integer)
+    card_num = db.Column(db.Integer)
+    correct_bin = db.Column(db.Integer)
+    rule_set = db.Column(db.String(300))
+
 

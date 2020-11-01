@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+<div class="progress" style="height: 50px">
+    <div class="progress-bar" role="progressbar" style="width: {{ num_completed_demos/num_demos*100 }}%;" aria-valuenow="{{num_completed_demos}}" aria-valuemin="0" aria-valuemax="{{num_demos}}">
+        {{num_completed_demos}} out of {{num_demos}}</div>
+</div>
+
+<div class="row" style="padding: 2em;">
+    <div class="col-8">
+        <div class="row">
+            <div class="col"></div>
+            <div id="staging" class="staging col">
+
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row bin-row">
+            {% for bin_id in range(num_bins) %}
+            <div id="bin{{bin_id}}" class="bin col">
+                {% if correct_bin == bin_id %}
+                <div class="card obj" style="width: 8rem;">
+                    <img class="card-img-top" src="../static/cards/{{card}}.png">
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card w-80" style="padding: 0.5em;">
+            <div class="card-body" id="feedback_text">
+                Let me show you where this card goes. Click Next Demonstration to see another example.
+            </div>
+        </div>
+        <img class="card-img-top w-50" style="padding: 0.5em;" src="../static/nao_static.png">
+        <form action="" method="post">
+            {{ form.hidden_tag() }} {{ form.submit(class="btn btn-dark btn-lg w-100") }}
+        </form>
+    </div>
+</div>
+
+<script src="../static/demos_script.js"></script>
+{% endblock %}

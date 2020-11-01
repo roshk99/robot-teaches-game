@@ -15,8 +15,9 @@ class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
-    password2 = PasswordField(
-        "Repeat Password", validators=[DataRequired(), EqualTo("password")])
+    password2 = PasswordField("Repeat Password",
+                              validators=[DataRequired(),
+                                          EqualTo("password")])
     submit = SubmitField("Register")
 
     def validate_username(self, username):
@@ -29,17 +30,26 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError("Please use a different email address.")
 
+
 class TrialForm(FlaskForm):
     chosen_bin = StringField()
-    
+
     def validate_chosen_bin(self, chosen_bin):
         if len(chosen_bin.data) < 3:
             raise ValidationError("Please choose a bin")
         if not (chosen_bin.data[0] == "b"):
             raise ValidationError("Please choose a bin")
 
-    submit = SubmitField("Next Trial")
+    submit_trial = SubmitField("Next Trial")
+
 
 class ClearTrialForm(FlaskForm):
+    submit_trial = SubmitField("Clear all Trials")
 
-    submit = SubmitField("Clear all Trials")
+
+class DemoForm(FlaskForm):
+    submit = SubmitField("Next Demonstration")
+
+
+class ClearDemoForm(FlaskForm):
+    submit_demo = SubmitField("Clear all Demos")
