@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block content %}
+<h1>Familiarizing Yourself with the Game</h1>
+
+<p>This page will explain how this game works.</p>
+
+<h2>The Cards</h2>
+<div class="row">
+    <div class="col">
+        The cards used in the game are from the game Set and have a series of properties.
+        <ul>
+            <li>Number of Shapes: 1, 2, 3</li>
+            <li>Shading: open, striped, solid</li>
+            <li>Type of Shape: diamond, oval, squiggle</li>
+            <li>Color: red, green, purple</li>
+        </ul>
+    </div>
+    <div class="col">
+        <img src="../static/training_cards.png" class="w-100">
+        <p>Image from: <a href="">https://geekandsundry.com/the-card-game-that-puzzled-mathematicians-for-decades/</a></p>
+    </div>
+</div>
+
+<h2>The Game</h2>
+<div class="row">
+    <div class="col">
+        <img src="../static/training_game.png" class="w-100">
+    </div>
+    <div class="col">
+        The game consists of several colored bins (red and orange here) that you must sort the cards into based on their properties.
+    </div>
+</div>
+
+<h2>The Demonstration Phase</h2>
+<div class="row">
+    <div class="col-4">
+        You have a helper robot who will start by demonstrating several different sorts of cards. Pay attention here because it will give you clues as to the rules for which card goes where!
+    </div>
+    <div class="col-8">
+        <img src="../static/training_demo.png" class="w-100">
+    </div>
+</div>
+
+<h2>The Trial Phase</h2>
+During the trials, you get to choose where each card goes (left). Your helper robot may give you some feedback after each attempt to help you improve (right).
+<div class="row">
+    <div class="col">
+        <img src="../static/training_trials_1.png" class="w-100">
+    </div>
+    <div class="col">
+        <img src="../static/training_trials_2.png" class="w-100">
+    </div>
+</div>
+
+<form action="" method="post">
+    {{ form.hidden_tag() }} {{ form.submit_training(class="btn btn-primary btn-lg w-100") }}
+</form>
+
+{% endblock %}

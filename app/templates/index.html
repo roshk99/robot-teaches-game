@@ -4,9 +4,15 @@
     <div class="col">
         <div class="card" style="width: 100%;">
             <div class="card-body">
-                <h5 class="card-title">Initial Survey</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h5 class="card-title">Consent and Training</h5>
+                {% if consent %}
+                <p class="card-text">Consent Completed.</p>
+                {% if training %}
+                <p class="card-text">Training Completed.</p>
+                {% else %}
+                <a href="{{ url_for('training') }}" class="btn btn-primary w-100">Training Form</a> {% endif %} {% else %}
+                <a href="{{ url_for('consent') }}" class="btn btn-primary w-100">Consent Form</a>
+                <p>Complete the consent form before training.</p> {% endif %}
             </div>
         </div>
     </div>
@@ -15,8 +21,10 @@
         <div class="card" style="width: 100%;">
             <div class="card-body">
                 <h5 class="card-title">Demonstrations</h5>
+                {% if consent and training%}
                 <p class="card-text">You have seen {{num_completed_demos}} out of {{num_demos}} demonstrations.</p>
                 <p>
+
                     {% if num_completed_demos == num_demos %}
                     <a href="#" class="btn btn-secondary w-100" disabled>All Demonstrations Complete</a> {% else %}
                     <a href="{{ url_for('demos') }}" class="btn btn-primary w-100">See Remaining Demonstrations</a> {% endif %}
@@ -26,6 +34,9 @@
                         {{ clear_demo_form.hidden_tag() }} {{ clear_demo_form.submit_demo(class="btn btn-danger w-100") }}
                     </form>
                 </p>
+                {% else %}
+                <p>Please complete the consent and training before starting the demonstrations</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -34,6 +45,7 @@
         <div class="card" style="width: 100%;">
             <div class="card-body">
                 <h5 class="card-title">Trials</h5>
+                {% if num_completed_demos == num_demos and consent and training %}
                 <p class="card-text">You have completed {{num_completed_trials}} out of {{num_trials}} trials.</p>
                 <p>
                     {% if num_completed_trials == num_trials %}
@@ -45,6 +57,9 @@
                         {{ clear_trial_form.hidden_tag() }} {{ clear_trial_form.submit_trial(class="btn btn-danger w-100") }}
                     </form>
                 </p>
+                {% else %}
+                <p>Please complete the consent, training, and demonstrations before starting the trials.</p>
+                {% endif %}
             </div>
         </div>
     </div>

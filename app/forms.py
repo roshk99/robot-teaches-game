@@ -46,10 +46,14 @@ class TrialForm(FlaskForm):
 class ClearTrialForm(FlaskForm):
     submit_trial = SubmitField("Clear all Trials")
 
+class ConsentForm(FlaskForm):
+    submit_consent = SubmitField("I have read and understood the information above and want to participate in this research.")
+
+class TrainingForm(FlaskForm):
+    submit_training = SubmitField("Got it, I'm ready to begin!")
 
 class DemoForm(FlaskForm):
-    submit = SubmitField("Next Demonstration")
-
+    submit_demo = SubmitField("Next Demonstration")
 
 class ClearDemoForm(FlaskForm):
     submit_demo = SubmitField("Clear all Demos")

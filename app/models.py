@@ -10,6 +10,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     trials = db.relationship("Trial", backref="author", lazy="dynamic")
     demos = db.relationship("Demo", backref="author", lazy="dynamic")
+    consent = db.Column(db.Integer)
+    training = db.Column(db.Integer)
 
     def __repr__(self):
         return "<User {}>".format(self.username)

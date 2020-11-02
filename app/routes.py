@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, TrialForm, ClearTrialForm, DemoForm, ClearDemoForm
+from app.forms import LoginForm, RegistrationForm, TrialForm, ClearTrialForm, DemoForm, ClearDemoForm, ConsentForm, TrainingForm
 from app.models import User, Trial, Demo
 from app.params import *
 from app.utils import rules_to_str, str_to_rules
@@ -27,18 +27,42 @@ def index():
         flash("All Demonstrations Deleted!")
         return redirect(url_for("index"))
 
-    num_completed_trials = current_user.trials.count()
-    num_completed_demos = current_user.demos.count()
-
     return render_template("index.html",
                            title="Home Page",
                            clear_trial_form=clear_trial,
                            clear_demo_form=clear_demo,
-                           num_completed_trials=num_completed_trials,
+                           num_completed_trials=current_user.trials.count(),
                            num_trials=NUM_TRIALS,
-                           num_completed_demos=num_completed_demos,
-                           num_demos=NUM_DEMOS)
+                           num_completed_demos=current_user.demos.count(),
+                           num_demos=NUM_DEMOS,
+                           consent=current_user.consent,
+                           training=current_user.training)
 
+@app.route("/consent", methods=["GET", "POST"])
+@login_required
+def consent():
+    form = ConsentForm()
+    if form.validate_on_submit():
+        current_user.consent = 1
+        db.session.commit()
+        redirect(url_for("index"))
+    if current_user.consent:
+        return redirect(url_for("index"))
+    else:
+        return render_template("consent.html", form=form)
+
+@app.route("/training", methods=["GET", "POST"])
+@login_required
+def training():
+    form = TrainingForm()
+    if form.validate_on_submit():
+        current_user.training = 1
+        db.session.commit()
+        redirect(url_for("index"))
+    if current_user.training or not current_user.consent:
+        return redirect(url_for("index"))
+    else:
+        return render_template("training.html", form=form)
 
 @app.route("/trials", methods=["GET", "POST"])
 @login_required
@@ -67,11 +91,11 @@ def trials():
                       rule_set=rules_to_str(RULES))
         db.session.add(trial)
         db.session.commit()
-        if num_completed_trials < NUM_TRIALS:
+        if num_completed_trials < NUM_TRIALS and current_user.consent:
             return redirect(url_for("trials"))
         else:
             return redirect(url_for("index"))
-    if num_completed_trials < NUM_TRIALS:
+    if num_completed_trials < NUM_TRIALS and current_user.consent:
         return render_template("trials.html",
                                title="Trials",
                                form=form,
@@ -106,11 +130,11 @@ def demos():
                     rule_set=rules_to_str(RULES))
         db.session.add(demo)
         db.session.commit()
-        if num_completed_demos < NUM_DEMOS:
+        if num_completed_demos < NUM_DEMOS and current_user.consent:
             return redirect(url_for("demos"))
         else:
             return redirect(url_for("index"))
-    if num_completed_demos < NUM_DEMOS:
+    if num_completed_demos < NUM_DEMOS and current_user.consent:
         return render_template("demos.html",
                                title="Demonstrations",
                                form=form,
@@ -145,7 +169,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
