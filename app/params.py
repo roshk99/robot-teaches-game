@@ -1,3 +1,5 @@
+DEBUG_MODE = True
+
 CARD_PROPERTIES = []
 for color in ['red', 'green', 'purple']:
     for shading in ['open', 'striped', 'solid']:

@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, TrialForm, ClearTrialForm, DemoForm, ClearDemoForm, ConsentForm, TrainingForm
+from app.forms import LoginForm, RegistrationForm, TrialForm, ClearTrialForm, DemoForm, ClearDemoForm, ConsentForm, TrainingForm, SurveyForm, ClearConsentForm, ClearTrainingForm, ClearSurveyForm
 from app.models import User, Trial, Demo
 from app.params import *
 from app.utils import rules_to_str, str_to_rules
@@ -14,6 +14,9 @@ from app.utils import rules_to_str, str_to_rules
 def index():
     clear_trial = ClearTrialForm()
     clear_demo = ClearDemoForm()
+    clear_consent = ClearConsentForm()
+    clear_training = ClearTrainingForm()
+    clear_survey = ClearSurveyForm()
 
     if clear_trial.submit_trial.data and clear_trial.validate_on_submit():
         current_user.trials.delete()
@@ -26,17 +29,41 @@ def index():
         db.session.commit()
         flash("All Demonstrations Deleted!")
         return redirect(url_for("index"))
+    
+    if clear_consent.submit_consent.data and clear_consent.validate_on_submit():
+        current_user.consent = None
+        db.session.commit()
+        flash("Consent Deleted!")
+        return redirect(url_for("index"))
+    
+    if clear_training.submit_training.data and clear_training.validate_on_submit():
+        current_user.training = None
+        db.session.commit()
+        flash("Training Deleted!")
+        return redirect(url_for("index"))
+    
+    if clear_survey.submit_survey.data and clear_survey.validate_on_submit():
+        current_user.robot_teaching = None
+        current_user.user_learning = None
+        db.session.commit()
+        flash("All Survey Responses Deleted!")
+        return redirect(url_for("index"))
 
     return render_template("index.html",
                            title="Home Page",
                            clear_trial_form=clear_trial,
                            clear_demo_form=clear_demo,
+                           clear_consent_form=clear_consent,
+                           clear_training_form=clear_training,
+                           clear_survey_form=clear_survey,
                            num_completed_trials=current_user.trials.count(),
                            num_trials=NUM_TRIALS,
                            num_completed_demos=current_user.demos.count(),
                            num_demos=NUM_DEMOS,
                            consent=current_user.consent,
-                           training=current_user.training)
+                           training=current_user.training,
+                           survey=current_user.robot_teaching,
+                           debug_mode=DEBUG_MODE)
 
 @app.route("/consent", methods=["GET", "POST"])
 @login_required
@@ -47,9 +74,10 @@ def consent():
         db.session.commit()
         redirect(url_for("index"))
     if current_user.consent:
+        flash("Consent already completed!")
         return redirect(url_for("index"))
     else:
-        return render_template("consent.html", form=form)
+        return render_template("consent.html", title="Consent", form=form)
 
 @app.route("/training", methods=["GET", "POST"])
 @login_required
@@ -59,16 +87,43 @@ def training():
         current_user.training = 1
         db.session.commit()
         redirect(url_for("index"))
-    if current_user.training or not current_user.consent:
+    if current_user.training:
+        flash("Training already completed!")
+        return redirect(url_for("index"))
+    elif not current_user.consent:
+        flash("Consent not yet completed!")
         return redirect(url_for("index"))
     else:
-        return render_template("training.html", form=form)
+        return render_template("training.html", title="Training", form=form)
+
+@app.route("/survey", methods=["GET", "POST"])
+@login_required
+def survey():
+    form = SurveyForm()
+    if form.validate_on_submit():
+        current_user.robot_teaching = form.robot_teaching.data
+        current_user.user_learning = form.user_learning.data
+        db.session.commit()
+        redirect(url_for("index"))
+
+    num_completed_trials=current_user.trials.count()
+    num_completed_demos=current_user.demos.count()
+    if current_user.robot_teaching:
+        flash("You have completed the survey!")
+        return redirect(url_for("index"))
+    else:
+        if current_user.consent and num_completed_demos == NUM_DEMOS and num_completed_trials == NUM_TRIALS and current_user.training:
+            return redirect(url_for("survey"))
+        else:
+            flash("You must complete the modules in order!")
+            return redirect(url_for("index"))
 
 @app.route("/trials", methods=["GET", "POST"])
 @login_required
 def trials():
     form = TrialForm()
     num_completed_trials = current_user.trials.count()
+    num_completed_demos=current_user.demos.count()
     cur_card = CARD_ORDER[min(num_completed_trials, len(CARD_ORDER) - 1)]
     cur_answer = ANSWER[min(num_completed_trials, len(CARD_ORDER) - 1)]
     feedback = []
@@ -91,12 +146,21 @@ def trials():
                       rule_set=rules_to_str(RULES))
         db.session.add(trial)
         db.session.commit()
-        if num_completed_trials < NUM_TRIALS and current_user.consent:
-            return redirect(url_for("trials"))
-        else:
+        if num_completed_trials == NUM_TRIALS:
+            flash("You have completed all the trials!")
             return redirect(url_for("index"))
-    if num_completed_trials < NUM_TRIALS and current_user.consent:
-        return render_template("trials.html",
+        else:
+            if current_user.consent and num_completed_demos == NUM_DEMOS and current_user.training:
+                return redirect(url_for("trials"))
+            else:
+                flash("You must complete the modules in order!")
+                return redirect(url_for("index"))
+    if num_completed_trials == NUM_TRIALS:
+        flash("You have completed all the trials!")
+        return redirect(url_for("index"))
+    else:
+        if current_user.consent and num_completed_demos == NUM_DEMOS and current_user.training:
+            return render_template("trials.html",
                                title="Trials",
                                form=form,
                                num_bins=NUM_BINS,
@@ -104,8 +168,9 @@ def trials():
                                num_completed_trials=num_completed_trials,
                                num_trials=NUM_TRIALS,
                                feedback=feedback)
-    else:
-        return redirect(url_for("index"))
+        else:
+            flash("You must complete the modules in order!")
+            return redirect(url_for("index"))
 
 
 @app.route("/demos", methods=["GET", "POST"])
@@ -130,22 +195,31 @@ def demos():
                     rule_set=rules_to_str(RULES))
         db.session.add(demo)
         db.session.commit()
-        if num_completed_demos < NUM_DEMOS and current_user.consent:
-            return redirect(url_for("demos"))
-        else:
+        if num_completed_demos == NUM_DEMOS:
+            flash("You have seen all the demonstrations!")
             return redirect(url_for("index"))
-    if num_completed_demos < NUM_DEMOS and current_user.consent:
-        return render_template("demos.html",
-                               title="Demonstrations",
-                               form=form,
-                               num_bins=NUM_BINS,
-                               card=cur_card,
-                               correct_bin=correct_bin,
-                               num_completed_demos=num_completed_demos + 1,
-                               num_demos=NUM_DEMOS)
-    else:
+        else:
+            if current_user.consent and current_user.training:
+                return redirect(url_for("demos"))
+            else:
+                flash("You must complete the modules in order!")
+                return redirect(url_for("index"))
+    if num_completed_demos == NUM_DEMOS:
+        flash("You have seen all the demonstrations!")
         return redirect(url_for("index"))
-
+    else:
+        if current_user.consent and current_user.training:
+            return render_template("demos.html",
+                            title="Demonstrations",
+                            form=form,
+                            num_bins=NUM_BINS,
+                            card=cur_card,
+                            correct_bin=correct_bin,
+                            num_completed_demos=num_completed_demos + 1,
+                            num_demos=NUM_DEMOS)
+        else:
+            flash("You must complete the modules in order!")
+            return redirect(url_for("index"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

@@ -6,13 +6,25 @@
             <div class="card-body">
                 <h5 class="card-title">Consent and Training</h5>
                 {% if consent %}
-                <p class="card-text">Consent Completed.</p>
+                <p><a href="#" class="btn btn-secondary w-100" disabled>Consent Complete</a> </p>
                 {% if training %}
-                <p class="card-text">Training Completed.</p>
+                <p><a href="#" class="btn btn-secondary w-100" disabled>Training Complete</a></p>
                 {% else %}
-                <a href="{{ url_for('training') }}" class="btn btn-primary w-100">Training Form</a> {% endif %} {% else %}
-                <a href="{{ url_for('consent') }}" class="btn btn-primary w-100">Consent Form</a>
-                <p>Complete the consent form before training.</p> {% endif %}
+                <p><a href="{{ url_for('training') }}" class="btn btn-primary w-100">Training Form</a></p>
+                {% endif %} {% else %}
+                <p><a href="{{ url_for('consent') }}" class="btn btn-primary w-100">Consent Form</a></p>
+                {% endif %} {% if debug_mode %}
+                <p>
+                    <form action="" method="post">
+                        {{ clear_consent_form.hidden_tag() }} {{ clear_consent_form.submit_consent(class="btn btn-danger w-100") }}
+                    </form>
+                </p>
+                <p>
+                    <form action="" method="post">
+                        {{ clear_training_form.hidden_tag() }} {{ clear_training_form.submit_training(class="btn btn-danger w-100") }}
+                    </form>
+                </p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -29,13 +41,14 @@
                     <a href="#" class="btn btn-secondary w-100" disabled>All Demonstrations Complete</a> {% else %}
                     <a href="{{ url_for('demos') }}" class="btn btn-primary w-100">See Remaining Demonstrations</a> {% endif %}
                 </p>
+                {% else %}
+                <p>Please complete the consent and training before starting the demonstrations</p>
+                {% endif %} {% if debug_mode %}
                 <p>
                     <form action="" method="post">
                         {{ clear_demo_form.hidden_tag() }} {{ clear_demo_form.submit_demo(class="btn btn-danger w-100") }}
                     </form>
                 </p>
-                {% else %}
-                <p>Please complete the consent and training before starting the demonstrations</p>
                 {% endif %}
             </div>
         </div>
@@ -52,13 +65,15 @@
                     <a href="#" class="btn btn-secondary w-100" disabled>All Trials Complete</a> {% else %}
                     <a href="{{ url_for('trials') }}" class="btn btn-primary w-100">Continue Your Trials</a> {% endif %}
                 </p>
+
+                {% else %}
+                <p>Please complete the consent, training, and demonstrations before starting the trials.</p>
+                {% endif %} {% if debug_mode %}
                 <p>
                     <form action="" method="post">
                         {{ clear_trial_form.hidden_tag() }} {{ clear_trial_form.submit_trial(class="btn btn-danger w-100") }}
                     </form>
                 </p>
-                {% else %}
-                <p>Please complete the consent, training, and demonstrations before starting the trials.</p>
                 {% endif %}
             </div>
         </div>
@@ -67,9 +82,18 @@
     <div class="col">
         <div class="card" style="width: 100%;">
             <div class="card-body">
-                <h5 class="card-title">Final Survey</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h5 class="card-title">Survey</h5>
+                {% if num_completed_trials == num_trials and num_completed_demos == num_demos and consent and training %} {% if survey %}
+                <a href="#" class="btn btn-secondary w-100" disabled>Survey Complete</a> {% else %}
+                <a href="{{ url_for('survey') }}" class="btn btn-primary w-100">Complete the Survey</a> {% endif %} {% else %}
+                <p>Please complete the consent, training, demonstrations, and trials before starting the survey.</p>
+                {% endif %} {% if debug_mode %}
+                <p>
+                    <form action="" method="post">
+                        {{ clear_survey_form.hidden_tag() }} {{ clear_survey_form.submit_survey(class="btn btn-danger w-100") }}
+                    </form>
+                </p>
+                {% endif %}
             </div>
         </div>
     </div>

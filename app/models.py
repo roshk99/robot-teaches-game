@@ -12,6 +12,8 @@ class User(UserMixin, db.Model):
     demos = db.relationship("Demo", backref="author", lazy="dynamic")
     consent = db.Column(db.Integer)
     training = db.Column(db.Integer)
+    robot_teaching = db.Column(db.Integer)
+    user_learning = db.Column(db.Integer)
 
     def __repr__(self):
         return "<User {}>".format(self.username)

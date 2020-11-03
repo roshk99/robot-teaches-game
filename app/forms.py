@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, RadioField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Regexp
 from app.models import User
 
@@ -42,7 +42,6 @@ class TrialForm(FlaskForm):
 
     submit_trial = SubmitField("Next Trial")
 
-
 class ClearTrialForm(FlaskForm):
     submit_trial = SubmitField("Clear all Trials")
 
@@ -57,3 +56,19 @@ class DemoForm(FlaskForm):
 
 class ClearDemoForm(FlaskForm):
     submit_demo = SubmitField("Clear all Demos")
+
+class SurveyForm(FlaskForm):
+    robot_teaching = RadioField("The robot taught me the game well", choices=[(0, "Strongly Disagree"), (1, "Disagree"), (2, "Neutral"), (3, "Agree"), (4, "Strongly Agree")])
+
+    user_learning = RadioField("I learnt the game well", choices=[(0, "Strongly Disagree"), (1, "Disagree"), (2, "Neutral"), (3, "Agree"), (4, "Strongly Agree")])
+
+    submit_survey = SubmitField("Submit")
+
+class ClearSurveyForm(FlaskForm):
+    submit_survey = SubmitField("Clear Survey Responses")
+
+class ClearConsentForm(FlaskForm):
+    submit_consent = SubmitField("Clear Consent")
+
+class ClearTrainingForm(FlaskForm):
+    submit_training = SubmitField("Clear Training")
