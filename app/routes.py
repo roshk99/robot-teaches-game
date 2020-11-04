@@ -113,7 +113,7 @@ def survey():
         return redirect(url_for("index"))
     else:
         if current_user.consent and num_completed_demos == NUM_DEMOS and num_completed_trials == NUM_TRIALS and current_user.training:
-            return redirect(url_for("survey"))
+            return render_template("survey.html", methods=["GET", "POST"], form=form)
         else:
             flash("You must complete the modules in order!")
             return redirect(url_for("index"))
