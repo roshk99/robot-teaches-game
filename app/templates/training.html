@@ -5,7 +5,7 @@
 
 <h2>The Cards</h2>
 <div class="row">
-    <div class="col">
+    <div class="col training-text">
         The cards used in the game are from the game Set and have a series of properties.
         <ul>
             <li>Number of Shapes: 1, 2, 3</li>
@@ -19,29 +19,32 @@
         <p>Image from: <a href="">https://geekandsundry.com/the-card-game-that-puzzled-mathematicians-for-decades/</a></p>
     </div>
 </div>
-
+<hr/>
 <h2>The Game</h2>
 <div class="row">
     <div class="col">
         <img src="../static/training_game.png" class="w-100">
     </div>
-    <div class="col">
-        The game consists of several colored bins (red and orange here) that you must sort the cards into based on their properties.
+    <div class="col training-text">
+        The game consists of two colored bins (red and orange) that you must sort the cards into based on their properties.
     </div>
 </div>
-
+<hr/>
 <h2>The Demonstration Phase</h2>
 <div class="row">
-    <div class="col-4">
-        You have a helper robot who will start by demonstrating several different sorts of cards. Pay attention here because it will give you clues as to the rules for which card goes where!
+    <div class="col-4 training-text">
+        You have a helper robot who will start by demonstrating where several cards belong. Pay attention here because it will give you clues as to the rules for which card goes where!
     </div>
     <div class="col-8">
         <img src="../static/training_demo.png" class="w-100">
     </div>
 </div>
-
+<hr/>
 <h2>The Trial Phase</h2>
-During the trials, you get to choose where each card goes (left). Your helper robot may give you some feedback after each attempt to help you improve (right).
+<span class="training-text">
+    During the trials, you get to choose where each card goes (left). Your helper robot may give you some feedback after each attempt to help you improve (right).
+</span>
+<br>
 <div class="row">
     <div class="col">
         <img src="../static/training_trials_1.png" class="w-100">
@@ -50,7 +53,7 @@ During the trials, you get to choose where each card goes (left). Your helper ro
         <img src="../static/training_trials_2.png" class="w-100">
     </div>
 </div>
-
+<hr/>
 <form action="" method="post">
     {{ form.hidden_tag() }} {{ form.submit_training(class="btn btn-primary btn-lg w-100") }}
 </form>

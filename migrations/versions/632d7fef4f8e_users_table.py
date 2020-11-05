@@ -1,8 +1,8 @@
 """users table
 
-Revision ID: 20dad6f477be
+Revision ID: 632d7fef4f8e
 Revises: 
-Create Date: 2020-11-03 09:53:45.360251
+Create Date: 2020-11-05 09:19:03.938327
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '20dad6f477be'
+revision = '632d7fef4f8e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,6 +27,11 @@ def upgrade():
     sa.Column('training', sa.Integer(), nullable=True),
     sa.Column('robot_teaching', sa.Integer(), nullable=True),
     sa.Column('user_learning', sa.Integer(), nullable=True),
+    sa.Column('age', sa.Integer(), nullable=True),
+    sa.Column('gender', sa.Integer(), nullable=True),
+    sa.Column('ethnicity', sa.Integer(), nullable=True),
+    sa.Column('education', sa.Integer(), nullable=True),
+    sa.Column('robot', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)

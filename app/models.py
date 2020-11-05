@@ -14,6 +14,11 @@ class User(UserMixin, db.Model):
     training = db.Column(db.Integer)
     robot_teaching = db.Column(db.Integer)
     user_learning = db.Column(db.Integer)
+    age = db.Column(db.Integer)
+    gender = db.Column(db.Integer)
+    ethnicity = db.Column(db.Integer)
+    education = db.Column(db.Integer)
+    robot = db.Column(db.Integer)
 
     def __repr__(self):
         return "<User {}>".format(self.username)

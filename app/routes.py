@@ -103,6 +103,11 @@ def survey():
     if form.validate_on_submit():
         current_user.robot_teaching = form.robot_teaching.data
         current_user.user_learning = form.user_learning.data
+        current_user.age = form.age.data
+        current_user.gender = form.gender.data
+        current_user.ethnicity = form.ethnicity.data
+        current_user.education = form.education.data
+        current_user.robot = form.robot.data
         db.session.commit()
         redirect(url_for("index"))
 

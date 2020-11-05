@@ -58,10 +58,14 @@ class ClearDemoForm(FlaskForm):
     submit_demo = SubmitField("Clear all Demos")
 
 class SurveyForm(FlaskForm):
-    robot_teaching = RadioField("The robot taught me the game well", choices=[(0, "Strongly Disagree"), (1, "Disagree"), (2, "Neutral"), (3, "Agree"), (4, "Strongly Agree")])
-
-    user_learning = RadioField("I learnt the game well", choices=[(0, "Strongly Disagree"), (1, "Disagree"), (2, "Neutral"), (3, "Agree"), (4, "Strongly Agree")])
-
+    
+    robot_teaching = RadioField("", choices=[(0, "Strongly Disagree"), (1, "Disagree"), (2, "Neutral"), (3, "Agree"), (4, "Strongly Agree")])
+    user_learning = RadioField("", choices=[(0, "Strongly Disagree"), (1, "Disagree"), (2, "Neutral"), (3, "Agree"), (4, "Strongly Agree")])
+    age = RadioField("", choices=[(0, "18-24"), (1, "25-34"), (2, "35-44"), (3, "45-54"), (4, "55-64"), (5, "65-74"), (6, "75-84"), (7, "85 or older")])
+    gender =  RadioField("", choices=[(0, "Male"), (1, "Female"), (2, "Other")])
+    education = RadioField("", choices=[(0, "Less than high school degree"), (1, "High school graduate (high school diploma or equivalent including GED)"), (2, "Some college but no degree"), (3, "Associate degree in college (2-year)"), (4, "Bachelor’s degree in college (4-year)"), (5, "Master’s degree"), (5, "Doctoral degree"), (5, "Professional degree (JD, MD)")])
+    ethnicity = RadioField("", choices=[(0, "White"), (1, "Black or African American"), (2, "American Indian or Alaska Native"), (3, "Asian"), (4, "Native Hawaiian or Pacific Islander"), (5, "Other")])
+    robot = RadioField("", choices=[(0, "Not at all"), (1, "Slightly"), (2, "Moderately"), (3, "Very"), (4, "Extremely")])
     submit_survey = SubmitField("Submit")
 
 class ClearSurveyForm(FlaskForm):

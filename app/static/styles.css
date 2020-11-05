@@ -65,3 +65,7 @@
 .bin:nth-child(9) {
     background-color: red;
 }
+
+.training-text {
+    font-size: 1.25rem;
+}
