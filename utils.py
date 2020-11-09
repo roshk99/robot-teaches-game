@@ -1,3 +1,5 @@
+from time import strftime
+
 def rules_to_str(rules):
     rule_str = ""
     for bin in range(len(rules)):
@@ -8,7 +10,6 @@ def rules_to_str(rules):
 
 
 def str_to_rules(rule_str):
-    print(rule_str)
     bin_strs = rule_str.split("bin:")
     rules = []
     for bin_ind, bin_str in enumerate(bin_strs[1:]):
@@ -19,3 +20,9 @@ def str_to_rules(rule_str):
                                                          '').replace("'", '')
             rules[bin_ind].append(tmp_strs.split(', '))
     return rules
+
+def get_user_index(id, time):
+    return(str(id) + '---' + strftime("%a, %d %b %Y %H:%M:%S +0000",time))
+
+def from_index(index):
+    return None

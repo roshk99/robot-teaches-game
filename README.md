@@ -10,6 +10,7 @@
 - https://github.com/bevacqua/dragula/
 - Alt + Shift + F is auto-indent
 - Flask Login with Database https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
+- DB to CSV with https://www.rebasedata.com/convert-sqlite-to-csv-online
 
 ```
 python -m venv env
@@ -25,4 +26,6 @@ flask db upgrade
 
 (Select Interpretor and Ctrl + Shift + `)
 python -m flask run
+
+pip install numpy scipy matplotlib
 ```

@@ -5,7 +5,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, TrialForm, ClearTrialForm, DemoForm, ClearDemoForm, ConsentForm, TrainingForm, SurveyForm, ClearConsentForm, ClearTrainingForm, ClearSurveyForm
 from app.models import User, Trial, Demo
 from app.params import *
-from app.utils import rules_to_str, str_to_rules
+from utils import rules_to_str, str_to_rules
 
 
 @app.route("/", methods=["GET", "POST"])
