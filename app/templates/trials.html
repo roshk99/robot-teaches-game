@@ -4,7 +4,7 @@
         height: 214px;
         width: 222px;
         background: url('../static/sad_peach.png') 0px 0px;
-}
+    }
 </style>
 
 <div class="progress" style="height: 50px">
@@ -57,12 +57,10 @@
             {% for bin_id in range(num_bins) %}
             <span id="bin_image{{bin_id}}" class="invisible">{{image[bin_id]}}</span> {% endfor %}
         </div>
-        <div class="card-body" id="feedback_image" src="../static/sad_peach.png">
-            
-        </div>
+        <img class="card-img-top" id="feedback_image" src="../static/sad_peach.png">
         <form action="" method="post">
             {{ form.hidden_tag() }}
-        
+
             <!-- {% for error in form.chosen_bin.errors %}
                 <div class="alert alert-danger" role="alert">{{ error }}</div>
             {% endfor %} -->
