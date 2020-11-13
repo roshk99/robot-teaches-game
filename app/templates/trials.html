@@ -57,9 +57,9 @@
             {% for bin_id in range(num_bins) %}
             <span id="bin_image{{bin_id}}" class="invisible">{{image[bin_id]}}</span> {% endfor %}
         </div>
-        <div class="card-body" id="feedback_image" src="../static/sad_peach.png">
-            
-        </div>
+        <img id="feedback_image">
+            <!-- new
+        </div> -->
         <form action="" method="post">
             {{ form.hidden_tag() }}
         

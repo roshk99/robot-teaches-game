@@ -53,15 +53,17 @@ function showFeedback() {
     var chosen_bin = document.getElementById("chosen_bin").value;
     var submit_choice_btn = document.getElementById("submit_choice_btn");
     var submit_trial_btn = document.getElementById("submit_trial");
-
+    console.log(feedback_image);
     if (chosen_bin == "staging" || chosen_bin == "") {
         feedback_box.innerHTML = "Please choose a bin for the card!";
-        feedback_image.innerHTML = "image";
+        // feedback_image.innerHTML = "image";
+        feedback_image.src = "../static/sad_peach.png"
     } else {
         feedback_box.innerHTML = $("bin_feedback" + chosen_bin[3]).innerHTML + " Go to the next trial.";
-        feedback_image.innerHTML = $("bin_image" + chosen_bin[3]).innerHTML;
+        feedback_image.src = $("bin_image" + chosen_bin[3]).innerHTML;
         submit_choice_btn.disabled = true;
         submit_trial_btn.disabled = false;
         drake.destroy();
     }
+    
 }
