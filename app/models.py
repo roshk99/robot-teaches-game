@@ -45,6 +45,7 @@ class Trial(db.Model):
     chosen_bin = db.Column(db.Integer)
     feedback_given = db.Column(db.String(300))
     feedback_type = db.Column(db.String(20))
+    image_given = db.Column(db.String(300))
     rule_set = db.Column(db.String(300))
 
 

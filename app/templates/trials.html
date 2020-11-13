@@ -1,4 +1,11 @@
 {% extends "base.html" %} {% block content %}
+<style>
+    #image_peach {
+        height: 214px;
+        width: 222px;
+        background: url('../static/sad_peach.png') 0px 0px;
+}
+</style>
 
 <div class="progress" style="height: 50px">
     <div class="progress-bar" role="progressbar" style="width: {{ num_completed_trials/num_trials*100 }}%;" aria-valuenow="{{num_completed_trials}}" aria-valuemin="0" aria-valuemax="{{num_trials}}">
@@ -42,10 +49,20 @@
                 Choose the bin you think the card belongs in
             </div>
         </div>
-        <img class="card-img-top w-50" style="padding: 0.5em;" src="../static/nao_static.png">
+        <!-- <div id="demo">
+            <p id="image_peach" onmouseover="animateScript(222,100,222,1110,'image_peach')" onmouseout="stopAnimate()">
+            </p>
+        </div> -->
+        <div class="row">
+            {% for bin_id in range(num_bins) %}
+            <span id="bin_image{{bin_id}}" class="invisible">{{image[bin_id]}}</span> {% endfor %}
+        </div>
+        <div class="card-body" id="feedback_image" src="../static/sad_peach.png">
+            
+        </div>
         <form action="" method="post">
             {{ form.hidden_tag() }}
-
+        
             <!-- {% for error in form.chosen_bin.errors %}
                 <div class="alert alert-danger" role="alert">{{ error }}</div>
             {% endfor %} -->
@@ -56,4 +73,5 @@
 </div>
 
 <script src="../static/trials_script.js"></script>
+<script src="../static/animateScript.js"></script>
 {% endblock %}

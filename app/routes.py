@@ -132,11 +132,14 @@ def trials():
     cur_card = CARD_ORDER[min(num_completed_trials, len(CARD_ORDER) - 1)]
     cur_answer = ANSWER[min(num_completed_trials, len(CARD_ORDER) - 1)]
     feedback = []
+    image = []
     for ii, answer in enumerate(cur_answer):
         if answer == 0:
             feedback.append("Incorrect!")
+            image.append("../static/nao_static.png")
         else:
             feedback.append("Correct!")
+            image.append("../static/sad_peach.png")
             correct_bin = ii
 
     if form.validate_on_submit():
@@ -147,6 +150,7 @@ def trials():
                       correct_bin=correct_bin,
                       chosen_bin=chosen_bin,
                       feedback_given=feedback[chosen_bin],
+                      image_given=image[chosen_bin],
                       feedback_type="text",
                       rule_set=rules_to_str(RULES))
         db.session.add(trial)
@@ -172,7 +176,8 @@ def trials():
                                card=cur_card,
                                num_completed_trials=num_completed_trials,
                                num_trials=NUM_TRIALS,
-                               feedback=feedback)
+                               feedback=feedback,
+                               image=image)
         else:
             flash("You must complete the modules in order!")
             return redirect(url_for("index"))
