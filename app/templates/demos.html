@@ -5,7 +5,7 @@
 </div>
 
 <div class="row" style="padding: 2em;">
-    <div class="col-8">
+    <div class="col-5">
         <div class="row">
             <div class="col"></div>
             <div id="staging" class="staging col">
@@ -25,13 +25,20 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-4">
-        <div class="card w-80" style="padding: 0.5em;">
-            <div class="card-body" id="feedback_text">
-                Let me show you where this card goes. Click Next Demonstration to see another example.
+    <div class="col-7">
+        <div class="row">
+            <div class="col-7">
+                <img class="card-img-top w-100" style="padding: 0.5em;" src="../static/peach_static.png">
+            </div>
+            <div class="col-5">
+                <div class="card w-100" style="padding: 0.5em;">
+                    <div class="card-body" id="feedback_text">
+                        Let me show you where this card goes. Click Next Demonstration to see another example.
+                    </div>
+                </div>
             </div>
         </div>
-        <img class="card-img-top w-50" style="padding: 0.5em;" src="../static/nao_static.png">
+
         <form action="" method="post">
             {{ form.hidden_tag() }} {{ form.submit_demo(class="btn btn-dark btn-lg w-100") }}
         </form>

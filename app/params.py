@@ -1,4 +1,5 @@
-DEBUG_MODE = True
+DEBUG_MODE = False
+FEEDBACK_TYPE = 'both' #none, text, nonverbal, both
 
 CARD_PROPERTIES = []
 for color in ['red', 'green', 'purple']:
@@ -10,15 +11,14 @@ for color in ['red', 'green', 'purple']:
 NUM_BINS = 2
 RULES = [
             [
-                [['red', 'green', 'purple'], ['open', 'striped', 'solid'], ['oval', 'squiggle'], ['one']]
+                [['red', 'green', 'purple'], ['open', 'striped', 'solid'], ['oval'], ['one', 'two', 'three']]
             ],
             [
-                [['red', 'green', 'purple'], ['open', 'striped', 'solid'], ['diamond', 'oval', 'squiggle'], ['two', 'three']],
-                [['red', 'green', 'purple'], ['open', 'striped', 'solid'], ['diamond'], ['one']]
+                [['red', 'green', 'purple'], ['open', 'striped', 'solid'], ['diamond', 'squiggle'], ['one', 'two', 'three']]
             ]
         ]
 
-CARD_ORDER = [3, 5, 6, 8, 10, 12, 34]
+CARD_ORDER = [7, 27, 60, 79, 32, 10, 45, 15, 3, 55]
 NUM_TRIALS = len(CARD_ORDER)
 ANSWER = []
 for card in CARD_ORDER:
@@ -34,7 +34,7 @@ for card in CARD_ORDER:
                     bin_res[cur_bin_num] = 1
     ANSWER.append(bin_res)
 
-CARD_ORDER_DEMO = [10, 12, 34]
+CARD_ORDER_DEMO = [10, 33, 75, 57]
 NUM_DEMOS = len(CARD_ORDER_DEMO)
 ANSWER_DEMO = []
 for card in CARD_ORDER_DEMO:
@@ -49,3 +49,6 @@ for card in CARD_ORDER_DEMO:
                 if res == 1:
                     bin_res[cur_bin_num] = 1
     ANSWER_DEMO.append(bin_res)
+
+TEXT_FEEDBACK = {'Correct': 'Correct!', 'Incorrect': 'Incorrect!'}
+NONVERBAL_FEEDBACK = {'Correct': ['http://127.0.0.1:5000/static/peach_1.png', 'http://127.0.0.1:5000/static/peach_2.png', '200'], 'Incorrect': ['http://127.0.0.1:5000/static/peach_2.png', 'http://127.0.0.1:5000/static/peach_5.png', '500']}

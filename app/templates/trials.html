@@ -5,7 +5,7 @@
         {{num_completed_trials}} out of {{num_trials}}</div>
 </div>
 <div class="row" style="padding: 2em;">
-    <div class="col-8">
+    <div class="col-5">
         <div class="row">
             <div class="col"></div>
             <div id="staging" class="staging col">
@@ -23,26 +23,32 @@
             {% endfor %}
         </div>
         <div class="row">
-            {% for bin_id in range(num_bins) %}
-            <span id="bin_feedback{{bin_id}}" class="invisible">{{feedback[bin_id]}}</span> {% endfor %}
-        </div>
-        <div class="row">
-            <div class="col"></div>
             <div class="col">
                 <button type="button" class="btn btn-dark w-100" id="submit_choice_btn" onclick="showFeedback()">Submit
                     Choice</button>
-
             </div>
-            <div class="col"></div>
+        </div>
+        <div class="row">
+            {% for bin_id in range(num_bins) %}
+            <span id="bin_text_feedback{{bin_id}}" class="invisible">{{text_feedback[bin_id]}}</span>
+            <span id="bin_nonverbal_feedback{{bin_id}}" class="invisible">{{nonverbal_feedback[bin_id]}}</span> {% endfor %}
+            <span id="feedback_type" class="invisible">{{feedback_type}}</span>
         </div>
     </div>
-    <div class="col-4">
-        <div class="card w-80" style="padding: 0.5em;">
-            <div class="card-body" id="feedback_text">
-                Choose the bin you think the card belongs in
+    <div class="col-7">
+        <div class="row">
+            <div class="col-7">
+                <img id="robot" class="card-img-top w-100" style="padding: 0.5em;" src="../static/peach_1.png">
+            </div>
+            <div class="col-5">
+                <div class="card w-100" style="padding: 0.5em;">
+                    <div class="card-body" id="feedback_text">
+                        Choose the bin you think the card belongs in
+                    </div>
+                </div>
             </div>
         </div>
-        <img class="card-img-top w-50" style="padding: 0.5em;" src="../static/nao_static.png">
+
         <form action="" method="post">
             {{ form.hidden_tag() }}
 
@@ -52,6 +58,7 @@
             {{ form.submit_trial(class="btn btn-dark btn-lg w-100") }}
             <span class="invisible">{{ form.chosen_bin(cols=32, rows=4) }} </span>
         </form>
+
     </div>
 </div>
 

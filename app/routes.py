@@ -131,12 +131,15 @@ def trials():
     num_completed_demos=current_user.demos.count()
     cur_card = CARD_ORDER[min(num_completed_trials, len(CARD_ORDER) - 1)]
     cur_answer = ANSWER[min(num_completed_trials, len(CARD_ORDER) - 1)]
-    feedback = []
+    text_feedback = []
+    nonverbal_feedback = []
     for ii, answer in enumerate(cur_answer):
-        if answer == 0:
-            feedback.append("Incorrect!")
+        if answer == 1:
+            text_feedback.append(TEXT_FEEDBACK['Correct'])
+            nonverbal_feedback.append(';'.join(NONVERBAL_FEEDBACK['Correct']))
         else:
-            feedback.append("Correct!")
+            text_feedback.append(TEXT_FEEDBACK['Incorrect'])
+            nonverbal_feedback.append(';'.join(NONVERBAL_FEEDBACK['Incorrect']))
             correct_bin = ii
 
     if form.validate_on_submit():
@@ -146,8 +149,9 @@ def trials():
                       card_num=cur_card,
                       correct_bin=correct_bin,
                       chosen_bin=chosen_bin,
-                      feedback_given=feedback[chosen_bin],
-                      feedback_type="text",
+                      text_feedback=text_feedback[chosen_bin],
+                      nonverbal_feedback=nonverbal_feedback[chosen_bin],
+                      feedback_type=FEEDBACK_TYPE,
                       rule_set=rules_to_str(RULES))
         db.session.add(trial)
         db.session.commit()
@@ -172,7 +176,9 @@ def trials():
                                card=cur_card,
                                num_completed_trials=num_completed_trials,
                                num_trials=NUM_TRIALS,
-                               feedback=feedback)
+                               text_feedback=text_feedback,
+                               nonverbal_feedback=nonverbal_feedback,
+                               feedback_type=FEEDBACK_TYPE)
         else:
             flash("You must complete the modules in order!")
             return redirect(url_for("index"))

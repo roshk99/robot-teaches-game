@@ -1,21 +1,13 @@
 # robot-teaches-game
 
-## Notes
+## Installation
 - Install VS Code
-- Install Python 3
 - Do the set-up instructions from https://code.visualstudio.com/docs/python/tutorial-flask starting with the Prerequisites and Create Project Environment sections
-- Install Flask with `pip3 install flask` inside the `env`
-- Run the app with `python -m flask run`
-- https://stackoverflow.com/questions/56199111/visual-studio-code-cmd-error-cannot-be-loaded-because-running-scripts-is-disabl
-- https://github.com/bevacqua/dragula/
-- Alt + Shift + F is auto-indent
-- Flask Login with Database https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
-- DB to CSV with https://www.rebasedata.com/convert-sqlite-to-csv-online
-
+- Select Interpretor to the `venv` and `Ctrl + Shift +` ` to open console within the env
+- Install Flask with `pip install flask` inside the env
+- Install Packages with pip, for example `pip install numpy scipy matplotlib` (there are definitely more packages needed, but not listed here. Install based on errors that you find)
+- Create the database using
 ```
-python -m venv env
-python -m pip install --upgrade pip
-pip install flask
 flask db init
 flask db migrate -m "users table"
 flask db upgrade
@@ -23,9 +15,12 @@ flask db migrate -m "trials table"
 flask db upgrade
 flask db migrate -m "demos table"
 flask db upgrade
-
-(Select Interpretor and Ctrl + Shift + `)
-python -m flask run
-
-pip install numpy scipy matplotlib
 ```
+- Run the app with `python -m flask run`
+
+## Useful Links
+- https://stackoverflow.com/questions/56199111/visual-studio-code-cmd-error-cannot-be-loaded-because-running-scripts-is-disabl
+- https://github.com/bevacqua/dragula/
+- Alt + Shift + F is auto-indent
+- Flask Login with Database https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
+- DB to CSV with https://www.rebasedata.com/convert-sqlite-to-csv-online
