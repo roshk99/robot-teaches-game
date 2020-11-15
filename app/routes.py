@@ -136,10 +136,10 @@ def trials():
     for ii, answer in enumerate(cur_answer):
         if answer == 0:
             feedback.append("Incorrect!")
-            image.append("../static/nao_static.png")
+            image.append("../static/tenor.gif")
         else:
             feedback.append("Correct!")
-            image.append("../static/sad_peach.png")
+            image.append("../static/happy.gif")
             correct_bin = ii
 
     if form.validate_on_submit():

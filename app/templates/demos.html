@@ -1,11 +1,4 @@
 {% extends "base.html" %} {% block content %}
-<style>
-    #image_peach {
-        height: 214px;
-        width: 222px;
-        background: url('../static/sad_peach.png') 0px 0px;
-    }
-</style>
 <div class="progress" style="height: 50px">
     <div class="progress-bar" role="progressbar" style="width: {{ num_completed_demos/num_demos*100 }}%;" aria-valuenow="{{num_completed_demos}}" aria-valuemin="0" aria-valuemax="{{num_demos}}">
         {{num_completed_demos}} out of {{num_demos}}</div>
@@ -38,10 +31,7 @@
                 Let me show you where this card goes. Click Next Demonstration to see another example.
             </div>
         </div>
-        <div id="demo">
-            <p id="image_peach" onmouseover="animateScript(222,100,222,1110,'image_peach')" onmouseout="stopAnimate()">
-            </p>
-        </div>
+        <img class="card-img-top" id="feedback_image" src="../static/base.gif">
         <form action="" method="post">
             {{ form.hidden_tag() }} {{ form.submit_demo(class="btn btn-dark btn-lg w-100") }}
         </form>
@@ -49,5 +39,4 @@
 </div>
 
 <script src="../static/demos_script.js"></script>
-<script src="../static/animateScript.js"></script>
 {% endblock %}

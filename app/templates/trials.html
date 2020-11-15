@@ -57,13 +57,7 @@
             {% for bin_id in range(num_bins) %}
             <span id="bin_image{{bin_id}}" class="invisible">{{image[bin_id]}}</span> {% endfor %}
         </div>
-<<<<<<< HEAD
-        <img class="card-img-top" id="feedback_image" src="../static/sad_peach.png">
-=======
-        <img id="feedback_image">
-            <!-- new
-        </div> -->
->>>>>>> 086bd86ff13be6ac5d85b6245678439f1702680e
+        <img class="card-img-top" id="feedback_image" src="../static/base.gif">
         <form action="" method="post">
             {{ form.hidden_tag() }}
 
@@ -77,5 +71,4 @@
 </div>
 
 <script src="../static/trials_script.js"></script>
-<script src="../static/animateScript.js"></script>
 {% endblock %}
