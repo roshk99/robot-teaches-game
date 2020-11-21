@@ -27,7 +27,7 @@ def str_to_rules(rule_str):
     return rules
 
 def get_user_index(id, time):
-    return(str(id) + '---' + strftime("%a, %d %b %Y %H:%M:%S +0000",time))
+    return(str(id) + '---' + strftime("%a, %d %b %Y %H:%M",time))
 
 def from_index(index):
     return None

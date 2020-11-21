@@ -4,8 +4,15 @@
 - Install VS Code
 - Do the set-up instructions from https://code.visualstudio.com/docs/python/tutorial-flask starting with the Prerequisites and Create Project Environment sections
 - Select Interpretor to the `venv` and `Ctrl + Shift +` ` to open console within the env
-- Install Flask with `pip install flask` inside the env
-- Install Packages with pip, for example `pip install numpy scipy matplotlib` (there are definitely more packages needed, but not listed here. Install based on errors that you find)
+```
+pip install flask
+pip install email-validator
+pip install flask-wtf
+pip install flask-login
+pip install flask-sqlalchemy
+pip install flask-migrate
+pip install numpy scipy matplotlib pandas pingouin
+```
 - Create the database using
 ```
 flask db init
