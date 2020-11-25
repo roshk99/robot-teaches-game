@@ -1,5 +1,5 @@
 DEBUG_MODE = False
-FEEDBACK_TYPE = 'both' #none, text, nonverbal, both
+FEEDBACK_TYPE = 'nonverbal' #none, text, nonverbal, both
 
 CARD_PROPERTIES = []
 for color in ['red', 'green', 'purple']:

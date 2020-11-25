@@ -75,13 +75,14 @@ with open('result/trial.csv', newline='') as csvfile:
 df['accuracy'] = df[trial_column_names].mean(axis=1)
 df['accuracy 1-5'] = df[trial_column_names[:5]].mean(axis=1)
 df['accuracy 6-10'] = df[trial_column_names[5:]].mean(axis=1)
-print(df)
+trial_accuracies = df[trial_column_names].mean(axis=0)
+agent = [1.   ,      1. ,        0.5,        0.66666667, 0.5, 1, 1.  ,       1.      ,   0.5    ,    1.        ]
+acc = pd.DataFrame({'agent':agent, 'human': trial_accuracies})
 
 # aov = pg.anova(dv='accuracy 1-5', between='condition', data=df, detailed=True)
 # print(aov)
 # aov = pg.anova(dv='accuracy 6-10', between='condition', data=df, detailed=True)
 # print(aov)
 
-fig, ax = plt.subplots()
-df.boxplot(column='accuracy 6-10', by='condition', ax=ax)
+acc.plot.line()
 plt.show()
