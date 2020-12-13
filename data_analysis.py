@@ -1,75 +1,91 @@
 import numpy as np
+import matplotlib.pyplot as plt
 import csv
 import time
 import os
-from app.utils import *
+from utils import *
+import pandas as pd
+import pingouin as pg
+import seaborn as sns
 
-class User():
-    def __init__(self, row, time):
-        self.id = int(row['id'])
-        self.time = time
-        self.username = row['username']
-        self.consent = int(row['consent'])
-        self.training = int(row['training'])
-        self.robot_teaching = int(row['robot_teaching'])
-        self.user_learning = int(row['user_learning'])
-        self.age = int(row['age'])
-        self.gender = int(row['gender'])
-        self.ethnicity = int(row['ethnicity'])
-        self.education = int(row['education'])
-        self.robot = int(row['robot'])
-        self.demos = {}
-        self.trials = {}
+sns.set_theme(style="whitegrid")
 
-    def add_demo(self, row):
-        self.demos[row['demo_num']] = {
-            'card_num': row['card_num'],
-            'correct_bin': row['correct_bin'],
-            'rule_set': str_to_rules(row['rule_set'])
-        }
-    
-    def add_trial(self, row):
-        self.trials[row['trial_num']] = {
-            'card_num': row['card_num'],
-            'correct_bin': row['correct_bin'],
-            'chosen_bin': row['chosen_bin'],
-            'feedback_given': row['feedback_given'],
-            'feedback_type': row['feedback_type'],
-            'rule_set': str_to_rules(row['rule_set'])
-        }
+column_names = ['id', 'condition', 'username', 'robot_teaching', 'user_learning', 'age', 'gender', 'ethnicity', 'education', 'robot']
+robot_teaching = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
+user_learning = ["Strongly Disagree","Disagree","Neutral","Agree","Strongly Agree"]
+age = ["18-24","25-34","35-44","45-54","55-64", "65-74","75-84","85 or older"]
+gender =  ["Male","Female","Other"]
+education = ["Less than high school degree","High school graduate (high school diploma or equivalent including GED)","Some college but no degree","Associate degree in college (2-year)","Bachelor’s degree in college (4-year)","Master’s degree","Doctoral degree","Professional degree (JD, MD)"]
+ethnicity = ["White","Black or African American","American Indian or Alaska Native","Asian","Native Hawaiian or Pacific Islander","Other"]
+robot = ["Not at all","Slightly","Moderately","Very","Extremely"]
+trial_column_names = []
+for trial_num in range(1,11):
+    trial_column_names.append('trial-'+str(trial_num))
+
+user = {}
+for col in column_names:
+    user[col] = []
+for col in trial_column_names:
+    user[col] = []
 
 
+#For each user.csv, do this
+with open('result/user.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    created_time = time.gmtime(os.path.getctime('result/user.csv'))
+    for row in reader:
+        if row['id'] == '1':
+            continue
+        id = get_user_index(row['id'], created_time)
+        user['id'].append(id)
+        for col in column_names[1:]:
+            if col == 'robot_teaching':
+                user[col].append(robot_teaching[int(row[col])])
+            elif col == 'user_learning':
+                user[col].append(user_learning[int(row[col])])
+            elif col == 'age':
+                user[col].append(age[int(row[col])])
+            elif col == 'gender':
+                user[col].append(gender[int(row[col])])
+            elif col == 'education':
+                user[col].append(education[int(row[col])])
+            elif col == 'ethnicity':
+                user[col].append(ethnicity[int(row[col])])
+            elif col == 'robot':
+                user[col].append(robot[int(row[col])])
+            elif col == 'condition':
+                user[col].append('')
+            else:
+                user[col].append(row[col])
+        for col in trial_column_names:
+            user[col].append(0)
 
-def create_users():
-    user_arr = {}
-    with open('result/user.csv', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        created_time = time.gmtime(os.path.getctime('result/user.csv'))
+#Creates the dataframe
+df = pd.DataFrame(user, index=user['id'])
 
-        for row in reader:
-            cur_user = User(row, created_time)
-            user_arr[get_user_index(cur_user.id, cur_user.time)] = cur_user
-    return user_arr
+#With each trial.csv, do this
+with open('result/trial.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    created_time = time.gmtime(os.path.getctime('result/trial.csv'))
 
-def add_demos(user_arr):
-    with open('result/demo.csv', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        created_time = time.gmtime(os.path.getctime('result/demo.csv'))
+    for row in reader:
+        id = get_user_index(row['user_id'], created_time)
+        trial_num = row['trial_num']
+        if row['text_feedback'] == 'Correct!':
+            df.at[id, 'trial-'+trial_num] = 1
+        df.at[id, 'condition'] = row['feedback_type']
 
-        for row in reader:
-            user_arr[get_user_index(row['user_id'], created_time)].add_demo(row)
-    return(user_arr)
+df['accuracy'] = df[trial_column_names].mean(axis=1)
+df['accuracy 1-5'] = df[trial_column_names[:5]].mean(axis=1)
+df['accuracy 6-10'] = df[trial_column_names[5:]].mean(axis=1)
+trial_accuracies = df[trial_column_names].mean(axis=0)
+agent = [1.   ,      1. ,        0.5,        0.66666667, 0.5, 1, 1.  ,       1.      ,   0.5    ,    1.        ]
+acc = pd.DataFrame({'agent':agent, 'human': trial_accuracies})
 
-def add_trials(user_arr):
-    with open('result/trial.csv', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        created_time = time.gmtime(os.path.getctime('result/trial.csv'))
+# aov = pg.anova(dv='accuracy 1-5', between='condition', data=df, detailed=True)
+# print(aov)
+# aov = pg.anova(dv='accuracy 6-10', between='condition', data=df, detailed=True)
+# print(aov)
 
-        for row in reader:
-            user_arr[get_user_index(row['user_id'], created_time)].add_trial(row)
-
-    return(user_arr)
-
-user_arr = create_users()
-user_arr = add_demos(user_arr)
-user_arr = add_trials(user_arr)
+acc.plot.line(title='Human vs. Agent')
+plt.show()
